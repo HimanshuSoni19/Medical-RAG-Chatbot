@@ -1,0 +1,64 @@
+# 🎯 Interview Prep & Technical FAQ
+
+This guide prepares you for common "Cross-Questioning" about your project. It explains the **WHY** behind your technical choices in a simple, straightforward way.
+
+---
+
+### **Q1: What is RAG, and why didn't you just "fine-tune" the AI on medical books?**
+*   **The Answer:** RAG (Retrieval-Augmented Generation) is like giving an AI an "Open Book" to look at during an exam. 
+*   **Why not Fine-Tuning?** 
+    1.  **Accuracy:** Fine-tuning makes the AI memorize facts, but it can still "lie." RAG shows the AI the exact paragraph to read.
+    2.  **Updates:** To add a new book, I just drop a PDF in a folder. Fine-tuning takes days of work to update.
+    3.  **Source Citations:** RAG can show exactly which book the answer came from.
+
+### **Q2: Why did you choose FAISS as your Vector Database?**
+*   **The Answer:** FAISS is a fast "Local" library for searching information.
+*   **Why use it?** 
+    1.  **Privacy:** Medical data stays on your computer, not on the internet.
+    2.  **Speed:** It searches through thousands of pages in milliseconds.
+    3.  **Cost:** It is free and doesn't require a monthly subscription.
+
+### **Q3: Why did you split the text into "Chunks" with an "Overlap"?**
+*   **The Answer:** AI can't read a whole book at once; it needs small pieces.
+*   **Why Overlap (50 characters)?** It's like a safety margin. It ensures that if a sentence is cut in the middle, the context is preserved in the next piece so the information isn't "broken."
+
+### **Q4: Why use Groq instead of just running the model on your own PC?**
+*   **The Answer:** **Speed.** Groq is a specialized AI "chip" that is much faster than a normal computer.
+*   **Result:** It makes the chat feel real-time (1-2 seconds) instead of waiting 30 seconds for a reply.
+
+### **Q5: Why use "Embeddings" (vectors) instead of just searching for keywords?**
+*   **The Answer:** **Meaning.** 
+*   **Example:** Keyword search might miss "fever" if you search for "high temperature." Embeddings understand that they mean the same thing.
+
+### **Q6: Why is `k=1` in your retriever? (In [retriever.py](file:///d:/Projects_2026/Rag%20Medical%20Chatbot/app/components/retriever.py))**
+*   **The Answer:** It keeps the answer concise. We only give the AI the **one best** piece of information.
+*   **Result:** This prevents the AI from getting confused by too much data and helps it give a "straight to the point" answer.
+
+### **Q7: Why did you use Flask instead of Django?**
+*   **The Answer:** Flask is "Lightweight." It's perfect for a single-purpose app like this. Django is "Heavy" and includes many things we don't need, which would just slow us down.
+
+### **Q8: What is the benefit of using `all-MiniLM-L6-v2` for embeddings?**
+*   **The Answer:** It's a "Small but Mighty" model. It's very efficient and doesn't require a powerful GPU to run, making our app fast even on basic computers.
+
+### **Q9: How do you handle cases where the answer isn't in the PDFs?**
+*   **The Answer:** Our **Custom Prompt** tells the AI: *"Use only the information provided. If you don't know, say you don't know."* This stops the AI from guessing.
+
+### **Q10: What is the "Temperature" setting in your LLM?**
+*   **The Answer:** We set it to **0.3**. Lower temperature makes the AI more factual and "boring." Higher temperature makes it more creative. For medical apps, we want facts, not creativity.
+
+### **Q11: How would you make this app work for 10,000 users?**
+*   **The Answer:** I would move the FAISS "brain" to a dedicated server (like ChromaDB or Pinecone) and use "Docker" to run multiple copies of the Flask app at once.
+
+### **Q12: What is the biggest limitation of this project?**
+*   **The Answer:** It only "sees" text. If the medical PDF has important charts or images, the AI currently can't "see" them.
+
+### **Q13: If you had more time, what would you add next?**
+*   **The Answer:** 
+    1.  A way to upload PDFs directly from the website.
+    2.  A button to download the chat history as a PDF for a doctor.
+    3.  A feature to show exactly which page/line the answer came from.
+
+---
+
+### **Quick Tip for Cross-Questioning:**
+Always stay calm and say: **"I chose this tool because it was the most efficient way to get accurate medical answers while keeping the code easy to maintain."**

@@ -3,6 +3,5 @@ venv/
 *.egg-info/
 logs/
 vectorstore/
-INTERVIEW_PREP_FAQ.md.resolved/
 __pycache__/
 *.pyc
